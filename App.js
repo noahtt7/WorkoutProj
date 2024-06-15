@@ -42,7 +42,7 @@ export default function App() {
         <Text height={300}>HIIIIIII</Text>
       </View>
       <View style={styles.exerciseContainer}>
-        <Text>List of exercises</Text>
+        {exercises.map((exercise) => <Text>{exercise}</Text>)}
       </View>
     </View>
   );
