@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TextInput, View, FlatList, Button } from 'react-native';
+import { StyleSheet, Text, TextInput, View, FlatList, Button, ScrollView } from 'react-native';
 
 export default function App() {
   const [enteredExerciseText, setEnteredExerciseText] = useState('');
@@ -31,18 +31,25 @@ export default function App() {
           title="Add exercise"
           color="#841584"
         />
-        <FlatList
-        data={[
-          {key: 'Incline bench'},
-          {key: 'Squat'},
-        ]}
+        <Button
+          title="Delete"
+          color='124234'
+        />
+        {/* <FlatList
+        data={exercises}
         renderItem={({item}) => <Text style={styles.item}>
           {item.key}</Text>}
-        />
-        <Text height={300}>HIIIIIII</Text>
+        /> */}
+        <Text height={300}>HIIIIII</Text>
       </View>
       <View style={styles.exerciseContainer}>
-        {exercises.map((exercise) => <Text>{exercise}</Text>)}
+        <ScrollView>
+          {exercises.map((exercise) => 
+            <View key={exercise} style={styles.exerciseItem}>
+              <Text style={styles.exerciseText}>{exercise}</Text>
+            </View>
+          )}
+        </ScrollView>
       </View>
     </View>
   );
@@ -77,6 +84,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between  '
   },
   exerciseContainer: {
-    flex: 4
+    flex: 4,
+    //color: 'purple'
+  },
+  exerciseItem: {
+    margin: 8,
+    borderRadius: 6,
+    backgroundColor: "#CBC3E3",
+    width: 200,
+    height: 30
+  },
+  exerciseText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 20
   }
 });
