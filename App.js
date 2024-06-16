@@ -26,21 +26,24 @@ export default function App() {
           style={styles.input}
           placeholder='Enter exercise'
           onChangeText={inputExerciseHandler}/>
-        <Button
-          onPress={addExerciseHandler}
-          title="Add exercise"
-          color="#841584"
-        />
-        <Button
-          title="Delete"
-          color='124234'
-        />
+        <View style={{ height: 50, width: 200, marginTop: 10,  }}>
+          <Button
+            onPress={addExerciseHandler}
+            title="Add exercise"
+            color="#841584"
+          />
+        </View>
+        <View style={{ width: 200 }}>
+          <Button
+            title="Delete"
+            color='#124234'
+          />
+        </View>
         {/* <FlatList
         data={exercises}
         renderItem={({item}) => <Text style={styles.item}>
           {item.key}</Text>}
         /> */}
-        <Text height={300}>HIIIIII</Text>
       </View>
       <View style={styles.exerciseContainer}>
         <ScrollView>
@@ -68,7 +71,7 @@ const styles = StyleSheet.create({
     borderColor: '#e4d0ff',
     borderWidth: 1,
     color: '#120438',
-    width: '70%',
+    width: 200,
     marginRight: 8,
     height: 40,
     borderBottomWidth: 1,
