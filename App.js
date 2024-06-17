@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TextInput, View, FlatList, Button, ScrollView, TouchableOpacity } from 'react-native';
+import { Icon } from 'react-native-elements';
 
 export default function App() {
   const [enteredExerciseText, setEnteredExerciseText] = useState('');
@@ -60,12 +61,14 @@ export default function App() {
           {exercises.map((exercise) => 
             <View key={exercise} style={styles.exerciseItem}>
               <Text style={styles.exerciseText}>{exercise}</Text>
-              <TouchableOpacity style={{ height: 50, width: 200, marginTop: 5, marginHorizontal: -5,  position: 'absolute'}}>
-                <Text style= {{textAlign: "right"}}>Add exer</Text>
+              <TouchableOpacity style={{ height: 50, left: 140, width: 30, marginTop: 10, marginHorizontal: -5,  position: 'absolute'}}>
+                <Icon size={30} name="edit" color="#4caf50" style= {{textAlign: "right"}}>Add exer</Icon>
+              </TouchableOpacity>
+              <TouchableOpacity style={{ height: 50, left: 170, width: 30, marginTop: 10, marginHorizontal: -5,  position: 'absolute'}}>
+                <Icon size={30} name="delete" color="#f44336" style= {{alignItems: "right"}}></Icon>
               </TouchableOpacity>
             </View>
           )}
-          
         </ScrollView>
       </View>
     </View>
@@ -110,7 +113,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: "#CBC3E3",
     width: 200,
-    height: 50
+    height: 50,
   },
   exerciseText: {
     color: 'white',
