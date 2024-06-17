@@ -1,10 +1,19 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TextInput, View, FlatList, Button, ScrollView } from 'react-native';
+import { StyleSheet, Text, TextInput, View, FlatList, Button, ScrollView, TouchableOpacity } from 'react-native';
 
 export default function App() {
   const [enteredExerciseText, setEnteredExerciseText] = useState('');
   const [exercises, setExercises] = useState([]);
+
+  const RenderExercise = () => {
+    
+      {exercises.map((exercise) => 
+        <View key={exercise} style={styles.exerciseItem}>
+          <Text style={styles.exerciseText}>{exercise}</Text>
+        </View>
+      )}
+  }
 
   function inputExerciseHandler(enteredText) {
     // entered text in TextInput box is set
@@ -47,16 +56,22 @@ export default function App() {
       </View>
       <View style={styles.exerciseContainer}>
         <ScrollView>
+          {/* <RenderExercise/> */}
           {exercises.map((exercise) => 
             <View key={exercise} style={styles.exerciseItem}>
               <Text style={styles.exerciseText}>{exercise}</Text>
+              <TouchableOpacity style={{ height: 50, width: 200, marginTop: 5, marginHorizontal: -5,  position: 'absolute'}}>
+                <Text style= {{textAlign: "right"}}>Add exer</Text>
+              </TouchableOpacity>
             </View>
           )}
+          
         </ScrollView>
       </View>
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   appcontainer: {
@@ -95,7 +110,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: "#CBC3E3",
     width: 200,
-    height: 30
+    height: 50
   },
   exerciseText: {
     color: 'white',
