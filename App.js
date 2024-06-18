@@ -16,6 +16,13 @@ export default function App() {
       )}
   }
 
+  const handleDelete = (id) => {
+    setExercises(exercises.filter((exercise) => exercise !== id));
+    // setExercises((currentExercises) => {
+    //   return currentExercises.filter((exercise) => exercise !== id);
+    // })
+  }
+
   function inputExerciseHandler(enteredText) {
     // entered text in TextInput box is set
     // to enteredExerciseText state
@@ -45,7 +52,7 @@ export default function App() {
         </View>
         <View style={{ width: 200 }}>
           <Button
-            title="Delete"
+            title="Clear All"
             color='#124234'
           />
         </View>
@@ -61,10 +68,14 @@ export default function App() {
           {exercises.map((exercise) => 
             <View key={exercise} style={styles.exerciseItem}>
               <Text style={styles.exerciseText}>{exercise}</Text>
-              <TouchableOpacity style={{ height: 50, left: 140, width: 30, marginTop: 10, marginHorizontal: -5,  position: 'absolute'}}>
+              <TouchableOpacity 
+                style={styles.addIcon}
+                >
                 <Icon size={30} name="edit" color="#4caf50" style= {{textAlign: "right"}}>Add exer</Icon>
               </TouchableOpacity>
-              <TouchableOpacity style={{ height: 50, left: 170, width: 30, marginTop: 10, marginHorizontal: -5,  position: 'absolute'}}>
+              <TouchableOpacity 
+                style={styles.deleteIcon}
+                onPress={() => handleDelete(exercise)}>
                 <Icon size={30} name="delete" color="#f44336" style= {{alignItems: "right"}}></Icon>
               </TouchableOpacity>
             </View>
@@ -119,5 +130,22 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontSize: 20
+  }, 
+  addIcon: {
+    height: 50,
+    left: 140,
+    width: 30,
+    marginTop: 10,
+    marginHorizontal: -5, 
+    position: 'absolute'
+  },
+  deleteIcon: {
+    height: 50,
+    left: 170,
+    width: 30,
+    marginTop: 10,
+    marginHorizontal: -5, 
+    position: 'absolute'
   }
+
 });
