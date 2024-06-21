@@ -46,6 +46,10 @@ export default function App() {
       // entered text in TextInput box is set
       // to enteredExerciseText state
       setEnteredExerciseText(enteredText);
+
+      // ADDED
+      const newExer = { id: Date.now().toString(), text: enteredExerciseText};
+      setExercises([...exercises, newExer]);
     }
   };
 
@@ -75,7 +79,8 @@ export default function App() {
             color="#841584"
           /> */}
           <TouchableOpacity
-          onPress={addExerciseHandler} color="#841584">
+          // changed onpress from addExerciseHandler to inputExerciseHandler
+          onPress={inputExerciseHandler} color="#841584">
             <Text>{isEditing ? "Edit" : "Add"}</Text>
           </TouchableOpacity>
         </View>
