@@ -6,6 +6,7 @@ import { Icon } from 'react-native-elements';
 export default function App() {
   const [enteredExerciseText, setEnteredExerciseText] = useState('');
   const [exercises, setExercises] = useState([]);
+  const [isEditing, setIsEditing] = useState(null);
 
   const RenderExercise = () => {
     
@@ -16,6 +17,15 @@ export default function App() {
       )}
   }
 
+  const handleEdit = (exer) => {
+    //setExercises(exercises.filter((exercise) => exercise === id));
+
+    //setEnteredExerciseText(id);
+    setIsEditing(exer.id);
+
+    //setIsEditing(id.id);
+  }
+
   const handleDelete = (id) => {
     setExercises(exercises.filter((exercise) => exercise !== id));
     // setExercises((currentExercises) => {
@@ -24,15 +34,28 @@ export default function App() {
   }
 
   function inputExerciseHandler(enteredText) {
-    // entered text in TextInput box is set
-    // to enteredExerciseText state
-    setEnteredExerciseText(enteredText);
+    if (isEditing) {
+      setExercises(
+        exercises.map((exercise) => 
+          exercise.id === isEditing ? setEnteredExerciseText(enteredText) : exercise
+        )
+      );
+      console.log(enteredText + "yuh");
+      setIsEditing(null);
+    } else {
+      // entered text in TextInput box is set
+      // to enteredExerciseText state
+      setEnteredExerciseText(enteredText);
+    }
   };
 
   function addExerciseHandler() {
     // Add new enteredExerciseText to exercises array
     console.log(enteredExerciseText);
-    setExercises(currentExercises => [...currentExercises, enteredExerciseText]);
+    //setExercises(currentExercises => [...currentExercises, enteredExerciseText]);
+
+    const newExer = { id: Date.now().toString(), text: enteredExerciseText};
+    setExercises([...exercises, newExer]);
   };
 
   return (
@@ -42,13 +65,19 @@ export default function App() {
         <TextInput 
           style={styles.input}
           placeholder='Enter exercise'
-          onChangeText={inputExerciseHandler}/>
+          //onChangeText={inputExerciseHandler}
+          // changed this last
+          onChangeText={setEnteredExerciseText}/> 
         <View style={{ height: 50, width: 200, marginTop: 10,  }}>
-          <Button
+          {/* <Button
             onPress={addExerciseHandler}
             title="Add exercise"
             color="#841584"
-          />
+          /> */}
+          <TouchableOpacity
+          onPress={addExerciseHandler} color="#841584">
+            <Text>{isEditing ? "Edit" : "Add"}</Text>
+          </TouchableOpacity>
         </View>
         <View style={{ width: 200 }}>
           <Button
@@ -66,10 +95,11 @@ export default function App() {
         <ScrollView>
           {/* <RenderExercise/> */}
           {exercises.map((exercise) => 
-            <View key={exercise} style={styles.exerciseItem}>
-              <Text style={styles.exerciseText}>{exercise}</Text>
+            <View key={exercise.id} style={styles.exerciseItem}>
+              <Text style={styles.exerciseText}>{exercise.text}</Text>
               <TouchableOpacity 
                 style={styles.addIcon}
+                onPress={() => handleEdit(exercise)}
                 >
                 <Icon size={30} name="edit" color="#4caf50" style= {{textAlign: "right"}}>Add exer</Icon>
               </TouchableOpacity>
