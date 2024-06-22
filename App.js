@@ -34,6 +34,9 @@ export default function App() {
   }
 
   function inputExerciseHandler(enteredText) {
+    // const exerExists = exercises.some(exer => exer.text.toLowerCase() === enteredText.text.toLowerCase());
+    // console.log(exerExists);
+    //console.log(exercises.filter(exer => exer.text));
     if (isEditing) {
       setExercises(
         exercises.map((exercise) => 
@@ -46,7 +49,7 @@ export default function App() {
     } else {
       // entered text in TextInput box is set
       // to enteredExerciseText state
-      setEnteredExerciseText(enteredText);
+      setEnteredExerciseText(enteredExerciseText);
 
       // ADDED
       const newExer = { id: Date.now().toString(), text: enteredExerciseText};
