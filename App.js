@@ -37,7 +37,8 @@ export default function App() {
     if (isEditing) {
       setExercises(
         exercises.map((exercise) => 
-          exercise.id === isEditing ? setEnteredExerciseText(enteredText) : exercise
+          //exercise.id === isEditing ? setEnteredExerciseText(enteredText) : exercise
+          exercise.id === isEditing ? {...exercise, text: enteredExerciseText} : exercise
         )
       );
       console.log(enteredText + "yuh");
