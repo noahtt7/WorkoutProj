@@ -63,6 +63,10 @@ export default function App() {
     setExercises([...exercises, newExer]);
   };
 
+  function clearAll() {
+    setExercises([]);
+  }
+
   return (
     <View style={styles.appcontainer}>
       <StatusBar style="auto" />
@@ -89,6 +93,7 @@ export default function App() {
           <Button
             title="Clear All"
             color='#124234'
+            onPress={clearAll}
           />
         </View>
         {/* <FlatList
