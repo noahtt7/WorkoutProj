@@ -73,7 +73,8 @@ export default function App() {
   return (
     <View style={styles.appcontainer}>
       <StatusBar style="auto" />
-      <View style={styles.inputContainer}>
+      <View //style={styles.inputContainer}
+      >
         <TextInput 
           style={styles.input}
           placeholder='Enter exercise'
@@ -111,7 +112,9 @@ export default function App() {
                 styles={styles.deleteIcon}
                 onPress={() => handleEdit(exercise)}
                 >
-                <Icon size={30} name="edit" color="#4caf50" style= {{textAlign: "right", padding: 10, top: -30, right: -50}}>Add exer</Icon>
+                <View style={styles.addEditIcon}>
+                  <Icon size={30} name="edit" color="#4caf50">Add exer</Icon>
+                </View>
               </TouchableOpacity>
               <TouchableOpacity 
                 style={styles.deleteIcon}
@@ -186,6 +189,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginHorizontal: -5, 
     position: 'absolute'
+  },
+  addEditIcon: {
+    textAlign: "right", 
+    padding: 10, 
+    top: -27, 
+    right: -50
   },
   deleteIcon: {
     height: 50,
