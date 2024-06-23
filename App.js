@@ -33,18 +33,18 @@ export default function App() {
     // })
   }
 
-  function inputExerciseHandler(enteredText) {
+  function inputExerciseHandler() {
     // const exerExists = exercises.some(exer => exer.text.toLowerCase() === enteredText.text.toLowerCase());
     // console.log(exerExists);
     //console.log(exercises.filter(exer => exer.text));
-    if (isEditing) {
+    if (isEditing && enteredExerciseText != null) {
       setExercises(
         exercises.map((exercise) => 
           //exercise.id === isEditing ? setEnteredExerciseText(enteredText) : exercise
           exercise.id === isEditing ? {...exercise, text: enteredExerciseText} : exercise
         )
       );
-      console.log(enteredText + "yuh");
+      //console.log(enteredText + "yuh");
       setIsEditing(null);
     } else {
       // entered text in TextInput box is set
@@ -88,8 +88,8 @@ export default function App() {
           /> */}
           <TouchableOpacity
           // changed onpress from addExerciseHandler to inputExerciseHandler
-          onPress={inputExerciseHandler} color="#841584">
-            <Text>{isEditing ? "Edit" : "Add"}</Text>
+          onPress={inputExerciseHandler} color="#841584" style={styles.addIcon}>
+            <Text style={styles.addText}>{isEditing ? "Edit" : "Add"}</Text>
           </TouchableOpacity>
         </View>
         <View style={{ width: 200 }}>
@@ -99,11 +99,6 @@ export default function App() {
             onPress={clearAll}
           />
         </View>
-        {/* <FlatList
-        data={exercises}
-        renderItem={({item}) => <Text style={styles.item}>
-          {item.key}</Text>}
-        /> */}
       </View>
       <View style={styles.exerciseContainer}>
         <ScrollView>
@@ -112,7 +107,7 @@ export default function App() {
             <View key={exercise.id} style={styles.exerciseItem}>
               <Text style={styles.exerciseText}>{exercise.text}</Text>
               <TouchableOpacity 
-                style={styles.addIcon}
+                //style={styles.addIcon}
                 onPress={() => handleEdit(exercise)}
                 >
                 <Icon size={30} name="edit" color="#4caf50" style= {{textAlign: "right"}}>Add exer</Icon>
@@ -175,11 +170,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20
   }, 
+  addText: {
+    textAlign: "center",
+    color: "white",
+    size: 50
+  },
   addIcon: {
-    height: 50,
-    left: 140,
-    width: 30,
-    marginTop: 10,
+    backgroundColor: "green",
+    height: 40,
+    left: 5,
+    width: 200,
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
     marginHorizontal: -5, 
     position: 'absolute'
   },
