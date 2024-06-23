@@ -108,9 +108,10 @@ export default function App() {
               <Text style={styles.exerciseText}>{exercise.text}</Text>
               <TouchableOpacity 
                 //style={styles.addIcon}
+                styles={styles.deleteIcon}
                 onPress={() => handleEdit(exercise)}
                 >
-                <Icon size={30} name="edit" color="#4caf50" style= {{textAlign: "right"}}>Add exer</Icon>
+                <Icon size={30} name="edit" color="#4caf50" style= {{textAlign: "right", padding: 10, top: -30, right: -50}}>Add exer</Icon>
               </TouchableOpacity>
               <TouchableOpacity 
                 style={styles.deleteIcon}
