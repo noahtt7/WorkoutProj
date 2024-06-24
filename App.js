@@ -55,6 +55,7 @@ export default function App() {
       const newExer = { id: Date.now().toString(), text: enteredExerciseText};
       setExercises([...exercises, newExer]);
     }
+    // setEnteredExerciseText("");
   };
 
   function addExerciseHandler() {
@@ -64,6 +65,9 @@ export default function App() {
 
     const newExer = { id: Date.now().toString(), text: enteredExerciseText};
     setExercises([...exercises, newExer]);
+
+    // For canceling an edit
+    setEnteredExerciseText("");
   };
 
   function clearAll() {
@@ -171,7 +175,9 @@ const styles = StyleSheet.create({
   },
   exerciseText: {
     color: 'white',
-    textAlign: 'center',
+    marginTop: 10,
+    marginLeft: 5,
+    textAlign: 'left',
     fontSize: 20
   }, 
   addText: {
@@ -193,7 +199,7 @@ const styles = StyleSheet.create({
   addEditIcon: {
     textAlign: "right", 
     padding: 10, 
-    top: -27, 
+    top: -37, 
     right: -50
   },
   deleteIcon: {
