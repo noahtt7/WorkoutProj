@@ -18,25 +18,14 @@ export default function App() {
   }
 
   const handleEdit = (exer) => {
-    //setExercises(exercises.filter((exercise) => exercise === id));
-
-    //setEnteredExerciseText(id);
     setIsEditing(exer.id);
-
-    //setIsEditing(id.id);
   }
 
   const handleDelete = (id) => {
     setExercises(exercises.filter((exercise) => exercise !== id));
-    // setExercises((currentExercises) => {
-    //   return currentExercises.filter((exercise) => exercise !== id);
-    // })
   }
 
   function inputExerciseHandler() {
-    // const exerExists = exercises.some(exer => exer.text.toLowerCase() === enteredText.text.toLowerCase());
-    // console.log(exerExists);
-    //console.log(exercises.filter(exer => exer.text));
     if (isEditing && enteredExerciseText != null) {
       setExercises(
         exercises.map((exercise) => 
@@ -44,7 +33,6 @@ export default function App() {
           exercise.id === isEditing ? {...exercise, text: enteredExerciseText} : exercise
         )
       );
-      //console.log(enteredText + "yuh");
       setIsEditing(null);
     } else {
       // entered text in TextInput box is set
@@ -108,9 +96,13 @@ export default function App() {
       <View style={styles.exerciseContainer}>
         <ScrollView>
           {/* <RenderExercise/> */}
+          
           {exercises.map((exercise) => 
             <View key={exercise.id} style={styles.exerciseItem}>
               <Text style={styles.exerciseText}>{exercise.text}</Text>
+              {/* <View> */}
+                <TextInput style={{borderWidth: 3, borderColor: 'black', borderRadius: 5, marginLeft: 205, width: 50, marginTop: 10, margin: 20, position: 'absolute'}} placeholder='hi'></TextInput>
+              {/* </View> */}
               <TouchableOpacity 
                 //style={styles.addIcon}
                 styles={styles.deleteIcon}
@@ -125,6 +117,7 @@ export default function App() {
                 onPress={() => handleDelete(exercise)}>
                 <Icon size={30} name="delete" color="#f44336" style= {{alignItems: "right"}}></Icon>
               </TouchableOpacity>
+              
             </View>
           )}
         </ScrollView>
@@ -167,7 +160,10 @@ const styles = StyleSheet.create({
     //color: 'purple'
   },
   exerciseItem: {
-    margin: 8,
+    margin: 60,
+    marginLeft: 40,
+    marginTop: 10,
+    marginBottom: 5,
     borderRadius: 6,
     backgroundColor: "#CBC3E3",
     width: 200,
