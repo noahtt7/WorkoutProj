@@ -109,7 +109,7 @@ export default function App() {
                 onPress={() => handleEdit(exercise)}
                 >
                 <View style={styles.addEditIcon}>
-                  <Icon size={30} name="edit" color="#4caf50">Add exer</Icon>
+                  <Icon size={30} name="edit" color="#4caf50"></Icon>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity 
@@ -194,9 +194,10 @@ const styles = StyleSheet.create({
   },
   addEditIcon: {
     textAlign: "right", 
+    width: 50,
     padding: 10, 
     top: -37, 
-    right: -50
+    left: 130
   },
   deleteIcon: {
     height: 50,
