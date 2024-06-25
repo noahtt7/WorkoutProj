@@ -74,13 +74,7 @@ export default function App() {
           // changed this last
           onChangeText={setEnteredExerciseText}/> 
         <View style={{ height: 50, width: 200, marginTop: 10,  }}>
-          {/* <Button
-            onPress={addExerciseHandler}
-            title="Add exercise"
-            color="#841584"
-          /> */}
           <TouchableOpacity
-          // changed onpress from addExerciseHandler to inputExerciseHandler
           onPress={inputExerciseHandler} color="#841584" style={styles.addIcon}>
             <Text style={styles.addText}>{isEditing ? "Edit" : "Add"}</Text>
           </TouchableOpacity>
@@ -101,7 +95,7 @@ export default function App() {
             <View key={exercise.id} style={styles.exerciseItem}>
               <Text style={styles.exerciseText}>{exercise.text}</Text>
               {/* <View> */}
-                <TextInput style={{borderWidth: 3, borderColor: 'black', borderRadius: 5, marginLeft: 205, width: 50, marginTop: 10, margin: 20, position: 'absolute'}} placeholder='hi'></TextInput>
+                <TextInput style={styles.repCountInput} placeholder='Rep #'></TextInput>
               {/* </View> */}
               <TouchableOpacity 
                 //style={styles.addIcon}
@@ -180,6 +174,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     size: 50
+  },
+  repCountInput: {
+    borderWidth: 3,
+    borderColor: 'black',
+    borderRadius: 5, 
+    marginLeft: 205, 
+    padding: 5,
+    width: 50, 
+    marginTop: 5, 
+    margin: 20, 
+    position: 'absolute'
   },
   addIcon: {
     backgroundColor: "green",
