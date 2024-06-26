@@ -1,12 +1,49 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TextInput, View, FlatList, Button, ScrollView, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   const [enteredExerciseText, setEnteredExerciseText] = useState('');
   const [exercises, setExercises] = useState([]);
   const [isEditing, setIsEditing] = useState(null);
+
+  useEffect(() => {
+    getExercises();
+  }, []);
+
+  useEffect(() => {
+    setArray();
+  }, [exercises]);
+
+  setArray = async () => {
+    try {
+      const jsonValue = JSON.stringify(exercises);
+      await AsyncStorage.setItem('exercises', jsonValue);
+      console.log('Saved exercises:', jsonValue); // Debugging line
+    } catch(e) {
+      // save error
+      console.log("Error: Could not save exercises", e);
+    }
+  
+    console.log('Done.')
+  }
+
+  const getExercises = async () => {
+    try {
+      const value = await AsyncStorage.getItem('exercises');
+      console.log('Loaded exercises:', value); // Debugging line
+      if (value !== null) {
+        // value previously stored
+        setEnteredExerciseText(value);
+        //console.log("yee " + exercises);
+      }
+    } catch (e) {
+      // error reading value
+      console.log("Failed to get exercises", e);
+    }
+  };
 
   const RenderExercise = () => {
     
@@ -43,6 +80,10 @@ export default function App() {
       const newExer = { id: Date.now().toString(), text: enteredExerciseText};
       setExercises([...exercises, newExer]);
     }
+    setArray();
+    getExercises();
+    console.log(exercises);
+    //getData();
     // setEnteredExerciseText("");
   };
 
