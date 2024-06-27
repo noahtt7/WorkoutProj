@@ -11,6 +11,7 @@ export default function App() {
 
   useEffect(() => {
     getExercises();
+    console.log("GETEXERCISES " + exercises);
   }, []);
 
   useEffect(() => {
@@ -36,7 +37,9 @@ export default function App() {
       console.log('Loaded exercises:', value); // Debugging line
       if (value !== null) {
         // value previously stored
-        setEnteredExerciseText(value);
+        //setEnteredExerciseText(value);
+        console.log("Parse " + JSON.parse(value));
+        setExercises(JSON.parse(value));
         //console.log("yee " + exercises);
       }
     } catch (e) {
@@ -80,9 +83,10 @@ export default function App() {
       const newExer = { id: Date.now().toString(), text: enteredExerciseText};
       setExercises([...exercises, newExer]);
     }
-    setArray();
-    getExercises();
+    // setArray();
+    // getExercises();
     console.log(exercises);
+    
     //getData();
     // setEnteredExerciseText("");
   };
