@@ -11,7 +11,6 @@ export default function App() {
 
   useEffect(() => {
     getExercises();
-    console.log("GETEXERCISES " + exercises);
   }, []);
 
   useEffect(() => {
@@ -22,7 +21,7 @@ export default function App() {
     try {
       const jsonValue = JSON.stringify(exercises);
       await AsyncStorage.setItem('exercises', jsonValue);
-      console.log('Saved exercises:', jsonValue); // Debugging line
+      //console.log('Saved exercises:', jsonValue); // Debugging line
     } catch(e) {
       // save error
       console.log("Error: Could not save exercises", e);
@@ -34,28 +33,16 @@ export default function App() {
   const getExercises = async () => {
     try {
       const value = await AsyncStorage.getItem('exercises');
-      console.log('Loaded exercises:', value); // Debugging line
+      //console.log('Loaded exercises:', value); // Debugging line
       if (value !== null) {
-        // value previously stored
-        //setEnteredExerciseText(value);
-        console.log("Parse " + JSON.parse(value));
         setExercises(JSON.parse(value));
-        //console.log("yee " + exercises);
+
       }
     } catch (e) {
       // error reading value
       console.log("Failed to get exercises", e);
     }
   };
-
-  const RenderExercise = () => {
-    
-      {exercises.map((exercise) => 
-        <View key={exercise} style={styles.exerciseItem}>
-          <Text style={styles.exerciseText}>{exercise}</Text>
-        </View>
-      )}
-  }
 
   const handleEdit = (exer) => {
     setIsEditing(exer.id);
@@ -79,22 +66,16 @@ export default function App() {
       // to enteredExerciseText state
       setEnteredExerciseText(enteredExerciseText);
 
-      // ADDED
       const newExer = { id: Date.now().toString(), text: enteredExerciseText};
       setExercises([...exercises, newExer]);
     }
-    // setArray();
-    // getExercises();
-    console.log(exercises);
-    
-    //getData();
+
     // setEnteredExerciseText("");
   };
 
   function addExerciseHandler() {
     // Add new enteredExerciseText to exercises array
     console.log(enteredExerciseText);
-    //setExercises(currentExercises => [...currentExercises, enteredExerciseText]);
 
     const newExer = { id: Date.now().toString(), text: enteredExerciseText};
     setExercises([...exercises, newExer]);
@@ -110,7 +91,7 @@ export default function App() {
   return (
     <View style={styles.appcontainer}>
       <StatusBar style="auto" />
-      <View //style={styles.inputContainer}
+      <View
       >
         <TextInput 
           style={styles.input}
@@ -134,8 +115,6 @@ export default function App() {
       </View>
       <View style={styles.exerciseContainer}>
         <ScrollView>
-          {/* <RenderExercise/> */}
-          
           {exercises.map((exercise) => 
             <View key={exercise.id} style={styles.exerciseItem}>
               <Text style={styles.exerciseText}>{exercise.text}</Text>
