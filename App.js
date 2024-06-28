@@ -1,83 +1,141 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TextInput, View, FlatList, Button, ScrollView, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   const [enteredExerciseText, setEnteredExerciseText] = useState('');
   const [exercises, setExercises] = useState([]);
+  const [isEditing, setIsEditing] = useState(null);
 
-  const RenderExercise = () => {
-    
-      {exercises.map((exercise) => 
-        <View key={exercise} style={styles.exerciseItem}>
-          <Text style={styles.exerciseText}>{exercise}</Text>
-        </View>
-      )}
+  useEffect(() => {
+    getExercises();
+  }, []);
+
+  useEffect(() => {
+    setArray();
+  }, [exercises]);
+
+  setArray = async () => {
+    try {
+      const jsonValue = JSON.stringify(exercises);
+      await AsyncStorage.setItem('exercises', jsonValue);
+      //console.log('Saved exercises:', jsonValue); // Debugging line
+    } catch(e) {
+      // save error
+      console.log("Error: Could not save exercises", e);
+    }
+  
+    console.log('Done.')
+  }
+
+  const getExercises = async () => {
+    try {
+      const value = await AsyncStorage.getItem('exercises');
+      //console.log('Loaded exercises:', value); // Debugging line
+      if (value !== null) {
+        setExercises(JSON.parse(value));
+
+      }
+    } catch (e) {
+      // error reading value
+      console.log("Failed to get exercises", e);
+    }
+  };
+
+  const handleEdit = (exer) => {
+    setIsEditing(exer.id);
   }
 
   const handleDelete = (id) => {
     setExercises(exercises.filter((exercise) => exercise !== id));
-    // setExercises((currentExercises) => {
-    //   return currentExercises.filter((exercise) => exercise !== id);
-    // })
   }
 
-  function inputExerciseHandler(enteredText) {
-    // entered text in TextInput box is set
-    // to enteredExerciseText state
-    setEnteredExerciseText(enteredText);
+  function inputExerciseHandler() {
+    if (isEditing && enteredExerciseText != null) {
+      setExercises(
+        exercises.map((exercise) => 
+          //exercise.id === isEditing ? setEnteredExerciseText(enteredText) : exercise
+          exercise.id === isEditing ? {...exercise, text: enteredExerciseText} : exercise
+        )
+      );
+      setIsEditing(null);
+    } else {
+      // entered text in TextInput box is set
+      // to enteredExerciseText state
+      setEnteredExerciseText(enteredExerciseText);
+
+      const newExer = { id: Date.now().toString(), text: enteredExerciseText};
+      setExercises([...exercises, newExer]);
+    }
+
+    // setEnteredExerciseText("");
   };
 
   function addExerciseHandler() {
     // Add new enteredExerciseText to exercises array
     console.log(enteredExerciseText);
-    setExercises(currentExercises => [...currentExercises, enteredExerciseText]);
+
+    const newExer = { id: Date.now().toString(), text: enteredExerciseText};
+    setExercises([...exercises, newExer]);
+
+    // For canceling an edit
+    setEnteredExerciseText("");
   };
+
+  function clearAll() {
+    setExercises([]);
+  }
 
   return (
     <View style={styles.appcontainer}>
       <StatusBar style="auto" />
-      <View style={styles.inputContainer}>
+      <View
+      >
         <TextInput 
           style={styles.input}
           placeholder='Enter exercise'
-          onChangeText={inputExerciseHandler}/>
+          //onChangeText={inputExerciseHandler}
+          // changed this last
+          onChangeText={setEnteredExerciseText}/> 
         <View style={{ height: 50, width: 200, marginTop: 10,  }}>
-          <Button
-            onPress={addExerciseHandler}
-            title="Add exercise"
-            color="#841584"
-          />
+          <TouchableOpacity
+          onPress={inputExerciseHandler} color="#841584" style={styles.addIcon}>
+            <Text style={styles.addText}>{isEditing ? "Edit" : "Add"}</Text>
+          </TouchableOpacity>
         </View>
         <View style={{ width: 200 }}>
           <Button
             title="Clear All"
             color='#124234'
+            onPress={clearAll}
           />
         </View>
-        {/* <FlatList
-        data={exercises}
-        renderItem={({item}) => <Text style={styles.item}>
-          {item.key}</Text>}
-        /> */}
       </View>
       <View style={styles.exerciseContainer}>
         <ScrollView>
-          {/* <RenderExercise/> */}
           {exercises.map((exercise) => 
-            <View key={exercise} style={styles.exerciseItem}>
-              <Text style={styles.exerciseText}>{exercise}</Text>
+            <View key={exercise.id} style={styles.exerciseItem}>
+              <Text style={styles.exerciseText}>{exercise.text}</Text>
+              {/* <View> */}
+                <TextInput style={styles.repCountInput} placeholder='Rep #'></TextInput>
+              {/* </View> */}
               <TouchableOpacity 
-                style={styles.addIcon}
+                //style={styles.addIcon}
+                styles={styles.deleteIcon}
+                onPress={() => handleEdit(exercise)}
                 >
-                <Icon size={30} name="edit" color="#4caf50" style= {{textAlign: "right"}}>Add exer</Icon>
+                <View style={styles.addEditIcon}>
+                  <Icon size={30} name="edit" color="#4caf50"></Icon>
+                </View>
               </TouchableOpacity>
               <TouchableOpacity 
                 style={styles.deleteIcon}
                 onPress={() => handleDelete(exercise)}>
                 <Icon size={30} name="delete" color="#f44336" style= {{alignItems: "right"}}></Icon>
               </TouchableOpacity>
+              
             </View>
           )}
         </ScrollView>
@@ -120,7 +178,10 @@ const styles = StyleSheet.create({
     //color: 'purple'
   },
   exerciseItem: {
-    margin: 8,
+    margin: 60,
+    marginLeft: 40,
+    marginTop: 10,
+    marginBottom: 5,
     borderRadius: 6,
     backgroundColor: "#CBC3E3",
     width: 200,
@@ -128,16 +189,44 @@ const styles = StyleSheet.create({
   },
   exerciseText: {
     color: 'white',
-    textAlign: 'center',
+    marginTop: 10,
+    marginLeft: 5,
+    textAlign: 'left',
     fontSize: 20
   }, 
+  addText: {
+    textAlign: "center",
+    color: "white",
+    size: 50
+  },
+  repCountInput: {
+    borderWidth: 3,
+    borderColor: 'black',
+    borderRadius: 5, 
+    marginLeft: 205, 
+    padding: 5,
+    width: 50, 
+    marginTop: 5, 
+    margin: 20, 
+    position: 'absolute'
+  },
   addIcon: {
-    height: 50,
-    left: 140,
-    width: 30,
-    marginTop: 10,
+    backgroundColor: "green",
+    height: 40,
+    left: 5,
+    width: 200,
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
     marginHorizontal: -5, 
     position: 'absolute'
+  },
+  addEditIcon: {
+    textAlign: "right", 
+    width: 50,
+    padding: 10, 
+    top: -37, 
+    left: 130
   },
   deleteIcon: {
     height: 50,
