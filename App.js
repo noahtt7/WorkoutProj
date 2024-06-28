@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TextInput, View, FlatList, Button, ScrollView, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Calendar } from 'react-native-calendars';
 
 export default function App() {
   const [enteredExerciseText, setEnteredExerciseText] = useState('');
@@ -93,6 +94,11 @@ export default function App() {
       <StatusBar style="auto" />
       <View
       >
+      <Calendar
+        onDayPress={day => {
+        console.log('selected day', day);
+        }}
+      />
         <TextInput 
           style={styles.input}
           placeholder='Enter exercise'
