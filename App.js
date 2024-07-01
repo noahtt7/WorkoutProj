@@ -18,7 +18,7 @@ function HomeScreen({ navigation }) {
           navigation.navigate("Exercises")
           }}
         />
-      <Text>Home Screen</Text>
+      <Text></Text>
     </View>
   );
 }
