@@ -7,15 +7,28 @@ import { Calendar } from 'react-native-calendars';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+//const [dateExerciseMap, setMap] = useState([]); 
+const [date, setDate] = useState('');
+
 const Stack = new createStackNavigator();
+
+function getDate(day) {
+  setDate(day);
+  console.log("the day is... " + date);
+}
   
-function HomeScreen({ navigation }) {
+function HomeScreen({ navigation, dateFromHomeScreen }) {
+  //const function 
+  //const {dateFromHomeScreen} = route.params;
+
   return(
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Calendar
           onDayPress={day => {
           console.log('selected day', day);
-          navigation.navigate("Exercises")
+          //navigation.navigate("Exercises");
+          dateFromHomeScreen(day);
+          //this.App.getDate(day);
           }}
         />
       <Text></Text>
@@ -172,9 +185,13 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Home">
+          {(props) => <HomeScreen {...props} dateFromHomeScreen={getDate} />}
+        </Stack.Screen>
+        {/* <Stack.Screen name="Home" component={HomeScreen} dateFromHomeScreen={getDate} /> */}
         <Stack.Screen name="Exercises" component={ExerciseScreen} />
       </Stack.Navigator>
+      {/* <HomeScreen dateFromHomeScreen={getDate} /> */}
     </NavigationContainer>
   );
 }
