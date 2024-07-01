@@ -4,8 +4,26 @@ import { StyleSheet, Text, TextInput, View, FlatList, Button, ScrollView, Toucha
 import { Icon } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Calendar } from 'react-native-calendars';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-export default function App() {
+const Stack = new createStackNavigator();
+  
+function HomeScreen({ navigation }) {
+  return(
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Calendar
+          onDayPress={day => {
+          console.log('selected day', day);
+          navigation.navigate("Exercises")
+          }}
+        />
+      <Text>Home Screen</Text>
+    </View>
+  );
+}
+
+function ExerciseScreen() {
   const [enteredExerciseText, setEnteredExerciseText] = useState('');
   const [exercises, setExercises] = useState([]);
   const [isEditing, setIsEditing] = useState(null);
@@ -94,11 +112,11 @@ export default function App() {
       <StatusBar style="auto" />
       <View
       >
-      <Calendar
+      {/* <Calendar
         onDayPress={day => {
         console.log('selected day', day);
         }}
-      />
+      /> */}
         <TextInput 
           style={styles.input}
           placeholder='Enter exercise'
@@ -150,6 +168,16 @@ export default function App() {
   );
 }
 
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Exercises" component={ExerciseScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
 const styles = StyleSheet.create({
   appcontainer: {
