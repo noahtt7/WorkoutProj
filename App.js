@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TextInput, View, FlatList, Button, ScrollView, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
@@ -8,14 +8,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 //const [dateExerciseMap, setMap] = useState([]); 
-const [date, setDate] = useState('');
-
-const Stack = new createStackNavigator();
-
-function getDate(day) {
-  setDate(day);
-  console.log("the day is... " + date);
-}
   
 function HomeScreen({ navigation, dateFromHomeScreen }) {
   //const function 
@@ -182,6 +174,15 @@ function ExerciseScreen() {
 }
 
 export default function App() {
+  const [date, setDate] = useState('');
+
+  const Stack = new createStackNavigator();
+
+  function getDate(day) {
+    setDate(day.dateString);
+    console.log("the day is... " + date);
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
