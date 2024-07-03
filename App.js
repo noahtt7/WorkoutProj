@@ -175,12 +175,33 @@ function ExerciseScreen() {
 
 export default function App() {
   const [date, setDate] = useState('');
+  const [dateToExerciseMap, setMap] = useState([
+    { date: '', exercises: [] }
+  ]);
 
   const Stack = new createStackNavigator();
 
   function getDate(day) {
+    // setDate(day.dateString);
+
+    // Check if date is already stored.
+    // If date already exists, update exercise list
+    // Otherwise, add a new entry
+    const containsDate = dateToExerciseMap.some(item => item.date === day.dateString);
+    if (containsDate) {
+      console.log("Already contains entry");
+    } else {
+      const newEntry = { date: day.dateString, exercises: [] };
+      console.log("Adding date " + newEntry.date);
+      setMap([...dateToExerciseMap, newEntry]);
+    }
+    // if (date === day.dateString) {
+    //   console.log("cuh");
+    // }
     setDate(day.dateString);
-    console.log("the day is... " + date);
+    console.log("the day is... " + day.dateString);
+    console.log("map " + dateToExerciseMap);
+    //console.log("lll " + dateToExerciseMap[3].date);
   }
 
   return (
