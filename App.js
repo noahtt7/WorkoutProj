@@ -10,15 +10,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 //const [dateExerciseMap, setMap] = useState([]); 
   
 function HomeScreen({ navigation, dateFromHomeScreen }) {
-  //const function 
-  //const {dateFromHomeScreen} = route.params;
 
   return(
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Calendar
           onDayPress={day => {
           console.log('selected day', day);
-          //navigation.navigate("Exercises");
+          navigation.navigate("Exercises");
           dateFromHomeScreen(day);
           //this.App.getDate(day);
           }}
@@ -28,7 +26,7 @@ function HomeScreen({ navigation, dateFromHomeScreen }) {
   );
 }
 
-function ExerciseScreen() {
+function ExerciseScreen({ navigation, exerciseList }) {
   const [enteredExerciseText, setEnteredExerciseText] = useState('');
   const [exercises, setExercises] = useState([]);
   const [isEditing, setIsEditing] = useState(null);
@@ -60,7 +58,10 @@ function ExerciseScreen() {
       //console.log('Loaded exercises:', value); // Debugging line
       if (value !== null) {
         setExercises(JSON.parse(value));
-
+        
+        // Send up to App parent so it can store
+        // exercise list
+        exerciseList(exercises);
       }
     } catch (e) {
       // error reading value
@@ -93,6 +94,10 @@ function ExerciseScreen() {
       const newExer = { id: Date.now().toString(), text: enteredExerciseText};
       setExercises([...exercises, newExer]);
     }
+
+    // Send up to App parent so it can store
+    // exercise list
+    exerciseList(exercises);
 
     // setEnteredExerciseText("");
   };
@@ -175,6 +180,7 @@ function ExerciseScreen() {
 
 export default function App() {
   const [date, setDate] = useState('');
+  const [currentExerciseList, setExerciseList] = useState([]);
   const [dateToExerciseMap, setMap] = useState([
     { date: '', exercises: [] }
   ]);
@@ -198,10 +204,16 @@ export default function App() {
     // if (date === day.dateString) {
     //   console.log("cuh");
     // }
-    setDate(day.dateString);
+    //setDate(day.dateString);
     console.log("the day is... " + day.dateString);
     console.log("map " + dateToExerciseMap);
     //console.log("lll " + dateToExerciseMap[3].date);
+  }
+
+  function getExerciseList(exerciseList) {
+    const exerTextMap = exerciseList.map((item) => item.text);
+    setExerciseList(exerTextMap);
+    console.log("The current list is... " + currentExerciseList);
   }
 
   return (
@@ -211,7 +223,10 @@ export default function App() {
           {(props) => <HomeScreen {...props} dateFromHomeScreen={getDate} />}
         </Stack.Screen>
         {/* <Stack.Screen name="Home" component={HomeScreen} dateFromHomeScreen={getDate} /> */}
-        <Stack.Screen name="Exercises" component={ExerciseScreen} />
+        <Stack.Screen name="Exercises">
+          {(props) => <ExerciseScreen {...props} exerciseList={getExerciseList} />}
+        </Stack.Screen>
+        {/* <Stack.Screen name="Exercises" component={ExerciseScreen} /> */}
       </Stack.Navigator>
       {/* <HomeScreen dateFromHomeScreen={getDate} /> */}
     </NavigationContainer>
