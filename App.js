@@ -91,7 +91,7 @@ function ExerciseScreen({ navigation, exerciseList }) {
       // to enteredExerciseText state
       setEnteredExerciseText(enteredExerciseText);
 
-      const newExer = { id: Date.now().toString(), text: enteredExerciseText};
+      const newExer = { id: Date.now().toString(), text: enteredExerciseText, repCount: 0};
       setExercises([...exercises, newExer]);
     }
 
@@ -115,6 +115,15 @@ function ExerciseScreen({ navigation, exerciseList }) {
 
   function clearAll() {
     setExercises([]);
+  }
+
+  function setRepCount(id, text) {
+    console.log("exd :" + id + " " + text);
+    setExercises(
+      exercises.map((item) =>
+        item.id === id ? {...item, repCount: text} : item
+      )
+    );
   }
 
   return (
@@ -153,7 +162,12 @@ function ExerciseScreen({ navigation, exerciseList }) {
             <View key={exercise.id} style={styles.exerciseItem}>
               <Text style={styles.exerciseText}>{exercise.text}</Text>
               {/* <View> */}
-                <TextInput style={styles.repCountInput} placeholder='Rep #'></TextInput>
+                <TextInput 
+                  style={styles.repCountInput} 
+                  placeholder='Rep #' 
+                  onChangeText={text => setRepCount(exercise.id, text)}
+                >
+                </TextInput>
               {/* </View> */}
               <TouchableOpacity 
                 //style={styles.addIcon}
