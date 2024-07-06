@@ -163,8 +163,9 @@ function ExerciseScreen({ navigation, exerciseList }) {
               <Text style={styles.exerciseText}>{exercise.text}</Text>
               {/* <View> */}
                 <TextInput 
-                  style={styles.repCountInput} 
+                  style={styles.repCountInput}
                   placeholder='Rep #' 
+                  value={exercise.repCount} 
                   onChangeText={text => setRepCount(exercise.id, text)}
                 >
                 </TextInput>
