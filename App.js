@@ -219,16 +219,34 @@ export default function App() {
     // if (date === day.dateString) {
     //   console.log("cuh");
     // }
-    //setDate(day.dateString);
+    setDate(day.dateString);
     console.log("the day is... " + day.dateString);
     console.log("map " + dateToExerciseMap);
     //console.log("lll " + dateToExerciseMap[3].date);
   }
 
+  /*
+    Called whenever the exercise list is update
+    Extracts names of exercises
+  */
   function getExerciseList(exerciseList) {
     const exerTextMap = exerciseList.map((item) => item.text);
     setExerciseList(exerTextMap);
-    console.log("The current list is... " + currentExerciseList);
+    const repCountList = exerciseList.map((item) => item.repCount);
+    console.log("The current list is... " + currentExerciseList + " from " + date);
+    console.log("Rep counts " + repCountList);
+
+    //result = {};
+    //exerTextMap.map((item, index) => result[item] = repCountList[index]);
+    //result = Object.fromEntries(exerTextMap.map((k, i) => [k, repCountList[i]]));
+    const result = exerTextMap.map((item, index) => {
+      return { exercise: item, repCount: repCountList[index] };
+    });
+    console.log("Result f" + JSON.stringify(result[0]));
+  }
+
+  function mapExerToDate() {
+
   }
 
   return (
