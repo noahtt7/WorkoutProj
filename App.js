@@ -242,11 +242,14 @@ export default function App() {
     const result = exerTextMap.map((item, index) => {
       return { exercise: item, repCount: repCountList[index] };
     });
-    console.log("Result f" + JSON.stringify(result[0]));
-  }
+    console.log("Result f" + JSON.stringify(result));
+    setMap(
+      dateToExerciseMap.map((item) =>
+        item.date === date ? {...item, exercises: result} : item
+      )
+    );
 
-  function mapExerToDate() {
-
+    console.log("I get it now " + JSON.stringify(dateToExerciseMap));
   }
 
   return (
