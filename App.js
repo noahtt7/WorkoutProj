@@ -26,9 +26,9 @@ function HomeScreen({ navigation, dateFromHomeScreen }) {
   );
 }
 
-function ExerciseScreen({ navigation, exerciseList }) {
+function ExerciseScreen({ navigation, exercises1, exerciseList }) {
   const [enteredExerciseText, setEnteredExerciseText] = useState('');
-  const [exercises, setExercises] = useState([]);
+  const [exercises, setExercises] = useState(exercises1);
   const [isEditing, setIsEditing] = useState(null);
 
   useEffect(() => {
@@ -37,6 +37,7 @@ function ExerciseScreen({ navigation, exerciseList }) {
 
   useEffect(() => {
     setArray();
+    console.log("SETARRAY " + JSON.stringify(exercises));
   }, [exercises]);
 
   setArray = async () => {
@@ -250,6 +251,15 @@ export default function App() {
     );
 
     console.log("I get it now " + JSON.stringify(dateToExerciseMap));
+
+    // TEST!!!!
+    // Gets the exercise list for the current date
+    // thats currently IN dateToExerciseMap
+
+    // Need to pass this into exercisescreen to update correctly
+    const currDateList = dateToExerciseMap.find(item => item.date === date).exercises;
+    console.log("DAWG " + JSON.stringify(currDateList));
+    //setExerciseList(currDateList);
   }
 
   return (
@@ -260,7 +270,7 @@ export default function App() {
         </Stack.Screen>
         {/* <Stack.Screen name="Home" component={HomeScreen} dateFromHomeScreen={getDate} /> */}
         <Stack.Screen name="Exercises">
-          {(props) => <ExerciseScreen {...props} exerciseList={getExerciseList} />}
+          {(props) => <ExerciseScreen {...props} exercises1={currentExerciseList} exerciseList={getExerciseList} />}
         </Stack.Screen>
         {/* <Stack.Screen name="Exercises" component={ExerciseScreen} /> */}
       </Stack.Navigator>
