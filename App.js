@@ -32,12 +32,17 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
   const [isEditing, setIsEditing] = useState(null);
 
   useEffect(() => {
+    //setExercises(exercises1);
     getExercises();
   }, []);
 
   useEffect(() => {
+    // probably use exercise1 instead of exercises
+    console.log("exercises1 " + JSON.stringify(exercises1));
+    //setExercises(exercises1);
     setArray();
     console.log("SETARRAY " + JSON.stringify(exercises));
+    exerciseList(exercises);
   }, [exercises]);
 
   setArray = async () => {
@@ -95,7 +100,7 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
       const newExer = { id: Date.now().toString(), text: enteredExerciseText, repCount: 0};
       setExercises([...exercises, newExer]);
     }
-
+    
     // Send up to App parent so it can store
     // exercise list
     exerciseList(exercises);
@@ -222,7 +227,7 @@ export default function App() {
     // }
     setDate(day.dateString);
     console.log("the day is... " + day.dateString);
-    console.log("map " + dateToExerciseMap);
+    console.log("map " + JSON.stringify(dateToExerciseMap));
     //console.log("lll " + dateToExerciseMap[3].date);
   }
 
@@ -232,10 +237,10 @@ export default function App() {
   */
   function getExerciseList(exerciseList) {
     const exerTextMap = exerciseList.map((item) => item.text);
-    setExerciseList(exerTextMap);
+    //setExerciseList(exerTextMap);
     const repCountList = exerciseList.map((item) => item.repCount);
-    console.log("The current list is... " + currentExerciseList + " from " + date);
-    console.log("Rep counts " + repCountList);
+    console.log("The current list is... " + JSON.stringify(currentExerciseList) + " from " + date);
+    //console.log("Rep counts " + repCountList);
 
     //result = {};
     //exerTextMap.map((item, index) => result[item] = repCountList[index]);
@@ -258,8 +263,9 @@ export default function App() {
 
     // Need to pass this into exercisescreen to update correctly
     const currDateList = dateToExerciseMap.find(item => item.date === date).exercises;
-    console.log("DAWG " + JSON.stringify(currDateList));
-    //setExerciseList(currDateList);
+    //console.log("DAWG " + JSON.stringify(currDateList));
+    setExerciseList(currDateList);
+    console.log("DAWG " + JSON.stringify(currentExerciseList));
   }
 
   return (
