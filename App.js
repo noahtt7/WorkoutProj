@@ -28,11 +28,11 @@ function HomeScreen({ navigation, dateFromHomeScreen }) {
 
 function ExerciseScreen({ navigation, exercises1, exerciseList }) {
   const [enteredExerciseText, setEnteredExerciseText] = useState('');
-  const [exercises, setExercises] = useState(exercises1);
+  const [exercises, setExercises] = useState([]);
   const [isEditing, setIsEditing] = useState(null);
 
   useEffect(() => {
-    //setExercises(exercises1);
+    setExercises(exercises1);
     getExercises();
   }, []);
 
@@ -121,6 +121,7 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
 
   function clearAll() {
     setExercises([]);
+    console.log("CLEARED.");
   }
 
   function setRepCount(id, text) {
@@ -236,22 +237,11 @@ export default function App() {
     Extracts names of exercises
   */
   function getExerciseList(exerciseList) {
-    const exerTextMap = exerciseList.map((item) => item.text);
-    //setExerciseList(exerTextMap);
-    const repCountList = exerciseList.map((item) => item.repCount);
-    console.log("The current list is... " + JSON.stringify(currentExerciseList) + " from " + date);
-    //console.log("Rep counts " + repCountList);
-
-    //result = {};
-    //exerTextMap.map((item, index) => result[item] = repCountList[index]);
-    //result = Object.fromEntries(exerTextMap.map((k, i) => [k, repCountList[i]]));
-    const result = exerTextMap.map((item, index) => {
-      return { exercise: item, repCount: repCountList[index] };
-    });
-    console.log("Result f" + JSON.stringify(result));
+    console.log("yep sex " + JSON.stringify(exerciseList));
+ 
     setMap(
       dateToExerciseMap.map((item) =>
-        item.date === date ? {...item, exercises: result} : item
+        item.date === date ? {...item, exercises: exerciseList} : item
       )
     );
 
@@ -276,7 +266,9 @@ export default function App() {
         </Stack.Screen>
         {/* <Stack.Screen name="Home" component={HomeScreen} dateFromHomeScreen={getDate} /> */}
         <Stack.Screen name="Exercises">
-          {(props) => <ExerciseScreen {...props} exercises1={currentExerciseList} exerciseList={getExerciseList} />}
+          {(props) => <ExerciseScreen {...props} exercises1={
+            dateToExerciseMap.find(item => item.date === date).exercises
+          } exerciseList={getExerciseList} />}
         </Stack.Screen>
         {/* <Stack.Screen name="Exercises" component={ExerciseScreen} /> */}
       </Stack.Navigator>
