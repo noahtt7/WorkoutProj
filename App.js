@@ -33,7 +33,7 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
 
   useEffect(() => {
     setExercises(exercises1);
-    getExercises();
+    //getExercises();
   }, []);
 
   useEffect(() => {
@@ -237,7 +237,7 @@ export default function App() {
     Extracts names of exercises
   */
   function getExerciseList(exerciseList) {
-    console.log("yep sex " + JSON.stringify(exerciseList));
+    console.log("yep  " + JSON.stringify(exerciseList));
  
     setMap(
       dateToExerciseMap.map((item) =>
