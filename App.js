@@ -33,7 +33,6 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
 
   useEffect(() => {
     setExercises(exercises1);
-    //getExercises();
   }, []);
 
   useEffect(() => {
@@ -57,23 +56,6 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
   
     console.log('Done.')
   }
-
-  const getExercises = async () => {
-    try {
-      const value = await AsyncStorage.getItem('exercises');
-      //console.log('Loaded exercises:', value); // Debugging line
-      if (value !== null) {
-        setExercises(JSON.parse(value));
-        
-        // Send up to App parent so it can store
-        // exercise list
-        exerciseList(exercises);
-      }
-    } catch (e) {
-      // error reading value
-      console.log("Failed to get exercises", e);
-    }
-  };
 
   const handleEdit = (exer) => {
     setIsEditing(exer.id);
@@ -106,17 +88,6 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
     exerciseList(exercises);
 
     // setEnteredExerciseText("");
-  };
-
-  function addExerciseHandler() {
-    // Add new enteredExerciseText to exercises array
-    console.log(enteredExerciseText);
-
-    const newExer = { id: Date.now().toString(), text: enteredExerciseText};
-    setExercises([...exercises, newExer]);
-
-    // For canceling an edit
-    setEnteredExerciseText("");
   };
 
   function clearAll() {
@@ -202,12 +173,49 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
 
 export default function App() {
   const [date, setDate] = useState('');
-  const [currentExerciseList, setExerciseList] = useState([]);
   const [dateToExerciseMap, setMap] = useState([
     { date: '', exercises: [] }
   ]);
 
   const Stack = new createStackNavigator();
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+    storeData();
+  }, [dateToExerciseMap]);
+
+  storeData = async () => {
+    try {
+      const jsonValue = JSON.stringify(dateToExerciseMap);
+      await AsyncStorage.setItem('dateExerciseMap', jsonValue);
+      console.log('Saved exercises:', jsonValue); // Debugging line
+    } catch(e) {
+      // save error
+      console.log("Error: Could not save exercises", e);
+    }
+  
+    console.log('Done.')
+  }
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('dateExerciseMap');
+      console.log('Loaded exercises:', value); // Debugging line
+      if (value !== null) {
+        setMap(JSON.parse(value));
+        
+        // Send up to App parent so it can store
+        // exercise list
+        //exerciseList(exercises);
+      }
+    } catch (e) {
+      // error reading value
+      console.log("Failed to get map", e);
+    }
+  };
 
   function getDate(day) {
     // setDate(day.dateString);
@@ -237,25 +245,11 @@ export default function App() {
     Extracts names of exercises
   */
   function getExerciseList(exerciseList) {
-    console.log("yep  " + JSON.stringify(exerciseList));
- 
     setMap(
       dateToExerciseMap.map((item) =>
         item.date === date ? {...item, exercises: exerciseList} : item
       )
     );
-
-    console.log("I get it now " + JSON.stringify(dateToExerciseMap));
-
-    // TEST!!!!
-    // Gets the exercise list for the current date
-    // thats currently IN dateToExerciseMap
-
-    // Need to pass this into exercisescreen to update correctly
-    const currDateList = dateToExerciseMap.find(item => item.date === date).exercises;
-    //console.log("DAWG " + JSON.stringify(currDateList));
-    setExerciseList(currDateList);
-    console.log("DAWG " + JSON.stringify(currentExerciseList));
   }
 
   return (
