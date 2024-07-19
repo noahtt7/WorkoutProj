@@ -7,8 +7,6 @@ import { Calendar } from 'react-native-calendars';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-//const [dateExerciseMap, setMap] = useState([]); 
-  
 function HomeScreen({ navigation, dateFromHomeScreen }) {
 
   return(
@@ -18,7 +16,6 @@ function HomeScreen({ navigation, dateFromHomeScreen }) {
           console.log('selected day', day);
           navigation.navigate("Exercises");
           dateFromHomeScreen(day);
-          //this.App.getDate(day);
           }}
         />
       <Text></Text>
@@ -147,6 +144,12 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
                   onChangeText={text => setRepCount(exercise.id, text)}
                 >
                 </TextInput>
+                <TextInput
+                  style={styles.weightInput}
+                  placeholder='Weight'
+                  //onChangeText={}
+                >
+                </TextInput>
               {/* </View> */}
               <TouchableOpacity 
                 //style={styles.addIcon}
@@ -191,7 +194,6 @@ export default function App() {
     try {
       const jsonValue = JSON.stringify(dateToExerciseMap);
       await AsyncStorage.setItem('dateExerciseMap', jsonValue);
-      console.log('Saved exercises:', jsonValue); // Debugging line
     } catch(e) {
       // save error
       console.log("Error: Could not save exercises", e);
@@ -203,7 +205,6 @@ export default function App() {
   const getData = async () => {
     try {
       const value = await AsyncStorage.getItem('dateExerciseMap');
-      console.log('Loaded exercises:', value); // Debugging line
       if (value !== null) {
         setMap(JSON.parse(value));
         
@@ -218,8 +219,6 @@ export default function App() {
   };
 
   function getDate(day) {
-    // setDate(day.dateString);
-
     // Check if date is already stored.
     // If date already exists, update exercise list
     // Otherwise, add a new entry
@@ -231,13 +230,10 @@ export default function App() {
       console.log("Adding date " + newEntry.date);
       setMap([...dateToExerciseMap, newEntry]);
     }
-    // if (date === day.dateString) {
-    //   console.log("cuh");
-    // }
+
     setDate(day.dateString);
     console.log("the day is... " + day.dateString);
-    console.log("map " + JSON.stringify(dateToExerciseMap));
-    //console.log("lll " + dateToExerciseMap[3].date);
+    //console.log("map " + JSON.stringify(dateToExerciseMap));
   }
 
   /*
@@ -258,15 +254,15 @@ export default function App() {
         <Stack.Screen name="Home">
           {(props) => <HomeScreen {...props} dateFromHomeScreen={getDate} />}
         </Stack.Screen>
-        {/* <Stack.Screen name="Home" component={HomeScreen} dateFromHomeScreen={getDate} /> */}
-        <Stack.Screen name="Exercises">
+        <Stack.Screen
+          name="Exercises"
+          options={{ title: date + " Exercises" }}
+          >
           {(props) => <ExerciseScreen {...props} exercises1={
             dateToExerciseMap.find(item => item.date === date).exercises
           } exerciseList={getExerciseList} />}
         </Stack.Screen>
-        {/* <Stack.Screen name="Exercises" component={ExerciseScreen} /> */}
       </Stack.Navigator>
-      {/* <HomeScreen dateFromHomeScreen={getDate} /> */}
     </NavigationContainer>
   );
 }
@@ -304,8 +300,9 @@ const styles = StyleSheet.create({
     //color: 'purple'
   },
   exerciseItem: {
-    margin: 60,
-    marginLeft: 40,
+    //margin: 60,
+    //marginLeft: 40,
+    marginRight: 130,
     marginTop: 10,
     marginBottom: 5,
     borderRadius: 6,
@@ -335,6 +332,21 @@ const styles = StyleSheet.create({
     marginTop: 5, 
     margin: 20, 
     position: 'absolute'
+  },
+  weightInput: {
+    borderWidth: 3,
+    borderColor: 'black',
+    borderRadius: 5,
+    marginLeft: 260,
+    padding: 5,
+    width: 50, 
+    marginTop: 5, 
+    margin: 20, 
+    fontSize: 12,
+    position: 'absolute'
+  },
+  weightPlaceholder: {
+    fontSize: 5
   },
   addIcon: {
     backgroundColor: "green",
