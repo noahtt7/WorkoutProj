@@ -137,6 +137,12 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
             <View key={exercise.id} style={styles.exerciseItem}>
               <Text style={styles.exerciseText}>{exercise.text}</Text>
               {/* <View> */}
+                <Text style={styles.repCountText}>
+                  Rep #
+                </Text>
+                <Text style={styles.weightCountText}>
+                  Weight
+                </Text>
                 <TextInput 
                   style={styles.repCountInput}
                   placeholder='Rep #' 
@@ -328,9 +334,17 @@ const styles = StyleSheet.create({
     borderRadius: 5, 
     marginLeft: 205, 
     padding: 5,
+    bottom: -20,
+    height: 40,
     width: 50, 
     marginTop: 5, 
     margin: 20, 
+    position: 'absolute'
+  },
+  repCountText: {
+    left: 210,
+    top: -10,
+    fontWeight: 'bold',
     position: 'absolute'
   },
   weightInput: {
@@ -339,6 +353,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginLeft: 260,
     padding: 5,
+    bottom: -20,
+    height: 40,
     width: 50, 
     marginTop: 5, 
     margin: 20, 
@@ -347,6 +363,12 @@ const styles = StyleSheet.create({
   },
   weightPlaceholder: {
     fontSize: 5
+  },
+  weightCountText: {
+    left: 260,
+    top: -10,
+    fontWeight: 'bold',
+    position: 'absolute'
   },
   addIcon: {
     backgroundColor: "green",
