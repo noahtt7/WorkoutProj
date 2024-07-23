@@ -34,10 +34,10 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
 
   useEffect(() => {
     // probably use exercise1 instead of exercises
-    console.log("exercises1 " + JSON.stringify(exercises1));
+    //console.log("exercises1 " + JSON.stringify(exercises1));
     //setExercises(exercises1);
     setArray();
-    console.log("SETARRAY " + JSON.stringify(exercises));
+    //console.log("SETARRAY " + JSON.stringify(exercises));
     exerciseList(exercises);
   }, [exercises]);
 
@@ -76,7 +76,7 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
       // to enteredExerciseText state
       setEnteredExerciseText(enteredExerciseText);
 
-      const newExer = { id: Date.now().toString(), text: enteredExerciseText, repCount: 0};
+      const newExer = { id: Date.now().toString(), text: enteredExerciseText, repCount: 0, weight: 0 };
       setExercises([...exercises, newExer]);
     }
     
@@ -99,6 +99,14 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
         item.id === id ? {...item, repCount: text} : item
       )
     );
+  }
+
+  function setWeight(id, text) {
+      setExercises(
+        exercises.map((item) =>
+          item.id == id ? {...item, weight: text} : item
+        )
+      );
   }
 
   return (
@@ -153,7 +161,8 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
                 <TextInput
                   style={styles.weightInput}
                   placeholder='Weight'
-                  //onChangeText={}
+                  value={exercise.weight}
+                  onChangeText={text => setWeight(exercise.id, text)}
                 >
                 </TextInput>
               {/* </View> */}
