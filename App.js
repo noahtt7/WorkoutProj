@@ -271,7 +271,12 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen
           name="Exercises"
-          options={{ title: date + " Exercises" }}
+          options={{
+            title: date + " Exercises",
+            headerStyle: {
+              backgroundColor: '#ecc0c2'
+            }
+           }}
           >
           {(props) => <ExerciseScreen {...props} exercises1={
             dateToExerciseMap.find(item => item.date === date).exercises
@@ -287,19 +292,22 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 50,
     paddingHorizontal: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#FEEAE6',
     alignItems: 'center',
     justifyContent: 'center',
   },
   input: {
     borderColor: '#e4d0ff',
-    borderWidth: 1,
+    borderWidth: 5,
+    borderRadius: 10,
     color: '#120438',
     width: 200,
     marginRight: 8,
-    height: 40,
-    borderBottomWidth: 1,
-    borderBottomColor: '#cccccc'
+    height: 50,
+    // borderBottomWidth: 1,
+    // borderBottomColor: '#cccccc',
+    backgroundColor: 'white',
+    textAlign: 'center'
   },
   item: {
     padding: 10,
@@ -386,6 +394,8 @@ const styles = StyleSheet.create({
     width: 200,
     padding: 10,
     borderRadius: 5,
+    borderWidth: 2,
+    borderColor: 'gray',
     marginBottom: 10,
     marginHorizontal: -5, 
     position: 'absolute'
