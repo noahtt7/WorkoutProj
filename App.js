@@ -6,11 +6,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Calendar } from 'react-native-calendars';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { TextFit } from 'react-native-text'
 
 function HomeScreen({ navigation, dateFromHomeScreen }) {
 
   return(
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FEEAE6' }}>
       <Calendar
           onDayPress={day => {
           console.log('selected day', day);
@@ -143,7 +144,7 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
         <ScrollView>
           {exercises.map((exercise) => 
             <View key={exercise.id} style={styles.exerciseItem}>
-              <Text style={styles.exerciseText}>{exercise.text}</Text>
+              <Text style={styles.exerciseText} adjustsFontSizeToFit>{exercise.text}</Text>
               {/* <View> */}
                 <Text style={styles.repCountText}>
                   Rep #
@@ -167,13 +168,13 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
                 </TextInput>
               {/* </View> */}
               <TouchableOpacity 
-                //style={styles.addIcon}
-                styles={styles.deleteIcon}
+                style={styles.addEditIcon}
+                //styles={styles.deleteIcon}
                 onPress={() => handleEdit(exercise)}
                 >
-                <View style={styles.addEditIcon}>
+                {/* <View style={styles.addEditIcon}> */}
                   <Icon size={30} name="edit" color="#4caf50"></Icon>
-                </View>
+                {/* </View> */}
               </TouchableOpacity>
               <TouchableOpacity 
                 style={styles.deleteIcon}
@@ -266,7 +267,14 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home">
+        <Stack.Screen 
+        name="Home"
+        options={{
+          headerStyle: {
+            backgroundColor: '#ecc0c2'
+          }
+        }}
+        >
           {(props) => <HomeScreen {...props} dateFromHomeScreen={getDate} />}
         </Stack.Screen>
         <Stack.Screen
@@ -320,6 +328,9 @@ const styles = StyleSheet.create({
   },
   exerciseContainer: {
     flex: 4,
+    width: 400,
+    left: 20,
+    position: 'relative'
     //color: 'purple'
   },
   exerciseItem: {
@@ -334,11 +345,13 @@ const styles = StyleSheet.create({
     height: 50,
   },
   exerciseText: {
+    flex: 0,
     color: 'white',
     marginTop: 10,
     marginLeft: 5,
     textAlign: 'left',
     fontSize: 20
+    //fontSize: Math.sqrt()
   }, 
   addText: {
     textAlign: "center",
@@ -401,15 +414,20 @@ const styles = StyleSheet.create({
     position: 'absolute'
   },
   addEditIcon: {
-    textAlign: "right", 
-    width: 50,
-    padding: 10, 
-    top: -37, 
-    left: 130
+    //textAlign: "right", 
+    //width: 50,
+    //padding: 10, 
+    //top: -37, 
+    //top: -35,
+    width: 30,
+    left: 320,
+    marginTop: 10,
+    marginHorizontal: -5,
+    position: 'absolute'
   },
   deleteIcon: {
     height: 50,
-    left: 170,
+    left: 345,
     width: 30,
     marginTop: 10,
     marginHorizontal: -5, 
