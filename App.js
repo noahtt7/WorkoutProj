@@ -6,19 +6,31 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Calendar } from 'react-native-calendars';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { TextFit } from 'react-native-text'
 
-function HomeScreen({ navigation, dateFromHomeScreen }) {
+function HomeScreen({ navigation, datesMarked, dateFromHomeScreen }) {
+  const markedD = {};
+
+  datesMarked.map((item) => {
+    markedD[item] = {
+      selected: true,
+      marked: true,
+      selectedColor: '#70d7c7',
+    };
+  });
 
   return(
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FEEAE6' }}>
       <Calendar
-          onDayPress={day => {
-          console.log('selected day', day);
+        style={ styles.calendar }
+        onDayPress={day => {
+          console.log('selected day', datesMarked);
           navigation.navigate("Exercises");
           dateFromHomeScreen(day);
-          }}
-        />
+        }}
+        markedDates={
+          markedD
+        }
+      />
       <Text></Text>
     </View>
   );
@@ -115,11 +127,6 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
       <StatusBar style="auto" />
       <View
       >
-      {/* <Calendar
-        onDayPress={day => {
-        console.log('selected day', day);
-        }}
-      /> */}
         <TextInput 
           style={styles.input}
           placeholder='Enter exercise'
@@ -275,7 +282,13 @@ export default function App() {
           }
         }}
         >
-          {(props) => <HomeScreen {...props} dateFromHomeScreen={getDate} />}
+          {(props) => <HomeScreen {...props}
+          datesMarked={
+            dateToExerciseMap.map((item) =>
+              item.date
+            )
+          }
+          dateFromHomeScreen={getDate} />}
         </Stack.Screen>
         <Stack.Screen
           name="Exercises"
@@ -304,6 +317,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  calendar: {
+    height: 350,
+    width: 350,
+    borderColor: '#70d7c7',
+    borderWidth: 5,
+    borderRadius: 30
+  },
   input: {
     borderColor: '#e4d0ff',
     borderWidth: 5,
@@ -331,7 +351,6 @@ const styles = StyleSheet.create({
     width: 400,
     left: 20,
     position: 'relative'
-    //color: 'purple'
   },
   exerciseItem: {
     //margin: 60,
@@ -340,7 +359,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 5,
     borderRadius: 6,
-    backgroundColor: "#CBC3E3",
+    //backgroundColor: "#CBC3E3",
+    backgroundColor: "#1ecbe1",
     width: 200,
     height: 50,
   },
@@ -414,13 +434,8 @@ const styles = StyleSheet.create({
     position: 'absolute'
   },
   addEditIcon: {
-    //textAlign: "right", 
-    //width: 50,
-    //padding: 10, 
-    //top: -37, 
-    //top: -35,
     width: 30,
-    left: 320,
+    left: 318,
     marginTop: 10,
     marginHorizontal: -5,
     position: 'absolute'
