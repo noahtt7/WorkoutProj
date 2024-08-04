@@ -96,8 +96,6 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
     // Send up to App parent so it can store
     // exercise list
     exerciseList(exercises);
-
-    // setEnteredExerciseText("");
   };
 
   function clearAll() {
@@ -277,8 +275,14 @@ export default function App() {
         <Stack.Screen 
         name="Home"
         options={{
+          title: "Home",
+          headerTitleAlign: 'center',
+          headerSize: 50,
           headerStyle: {
             backgroundColor: '#ecc0c2'
+          },
+          headerTitleStyle: {
+            fontSize: 30
           }
         }}
         >
@@ -360,7 +364,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     borderRadius: 6,
     //backgroundColor: "#CBC3E3",
-    backgroundColor: "#1ecbe1",
+    backgroundColor: "#70d7c7",
     width: 200,
     height: 50,
   },
