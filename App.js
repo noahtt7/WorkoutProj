@@ -46,11 +46,7 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
   }, []);
 
   useEffect(() => {
-    // probably use exercise1 instead of exercises
-    //console.log("exercises1 " + JSON.stringify(exercises1));
-    //setExercises(exercises1);
     setArray();
-    //console.log("SETARRAY " + JSON.stringify(exercises));
     exerciseList(exercises);
   }, [exercises]);
 
@@ -58,7 +54,6 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
     try {
       const jsonValue = JSON.stringify(exercises);
       await AsyncStorage.setItem('exercises', jsonValue);
-      //console.log('Saved exercises:', jsonValue); // Debugging line
     } catch(e) {
       // save error
       console.log("Error: Could not save exercises", e);
@@ -79,7 +74,6 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
     if (isEditing && enteredExerciseText != null) {
       setExercises(
         exercises.map((exercise) => 
-          //exercise.id === isEditing ? setEnteredExerciseText(enteredText) : exercise
           exercise.id === isEditing ? {...exercise, text: enteredExerciseText} : exercise
         )
       );
@@ -128,8 +122,6 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
         <TextInput 
           style={styles.input}
           placeholder='Enter exercise'
-          //onChangeText={inputExerciseHandler}
-          // changed this last
           onChangeText={setEnteredExerciseText}/> 
         <View style={{ height: 50, width: 200, marginTop: 10,  }}>
           <TouchableOpacity
@@ -150,7 +142,6 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
           {exercises.map((exercise) => 
             <View key={exercise.id} style={styles.exerciseItem}>
               <Text style={styles.exerciseText} adjustsFontSizeToFit>{exercise.text}</Text>
-              {/* <View> */}
                 <Text style={styles.repCountText}>
                   Rep #
                 </Text>
@@ -171,22 +162,17 @@ function ExerciseScreen({ navigation, exercises1, exerciseList }) {
                   onChangeText={text => setWeight(exercise.id, text)}
                 >
                 </TextInput>
-              {/* </View> */}
               <TouchableOpacity 
                 style={styles.addEditIcon}
-                //styles={styles.deleteIcon}
                 onPress={() => handleEdit(exercise)}
                 >
-                {/* <View style={styles.addEditIcon}> */}
                   <Icon size={30} name="edit" color="#4caf50"></Icon>
-                {/* </View> */}
               </TouchableOpacity>
               <TouchableOpacity 
                 style={styles.deleteIcon}
                 onPress={() => handleDelete(exercise)}>
                 <Icon size={30} name="delete" color="#f44336" style= {{alignItems: "right"}}></Icon>
               </TouchableOpacity>
-              
             </View>
           )}
         </ScrollView>
@@ -254,7 +240,6 @@ export default function App() {
 
     setDate(day.dateString);
     console.log("the day is... " + day.dateString);
-    //console.log("map " + JSON.stringify(dateToExerciseMap));
   }
 
   /*
@@ -375,7 +360,6 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     textAlign: 'left',
     fontSize: 20
-    //fontSize: Math.sqrt()
   }, 
   addText: {
     textAlign: "center",
